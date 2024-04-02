@@ -1,36 +1,38 @@
 package accounts;
 
-import java.util.HashMap;
-import java.util.Map;
+import dbService.DBException;
+import dbService.DBService;
+import dbService.dataSets.UsersProfileDataSet;
+
+
 
 public class AccountService {
-    private final Map<String, UserProfile> loginToProfile;
-    private final Map<String, UserProfile> sessionIdToProfile;
+    private final DBService dbService;
 
 
-    public AccountService() {
-        loginToProfile = new HashMap<>();
-        sessionIdToProfile = new HashMap<>();
+
+    public AccountService(DBService dbService) {
+        this.dbService = dbService;
     }
 
-    public void addNewUser(UserProfile userProfile) {
-        loginToProfile.put(userProfile.getLogin(), userProfile);
+    public void addNewUser(String login, String pass, String email) {
+        try {
+
+            dbService.addUser(login, pass, email);
+
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
-    public UserProfile getUserByLogin(String login) {
-        return loginToProfile.get(login);
+    public UsersProfileDataSet getUserByLogin(String login) {
+        try {
+            return dbService.getUser(login);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 
-    public UserProfile getUserBySessionId(String sessionId) {
-        return sessionIdToProfile.get(sessionId);
-    }
-
-    public void addSession(String sessionId, UserProfile userProfile) {
-        sessionIdToProfile.put(sessionId, userProfile);
-    }
-
-    public void deleteSession(String sessionId) {
-        sessionIdToProfile.remove(sessionId);
-    }
 
 }

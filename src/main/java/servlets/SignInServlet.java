@@ -2,6 +2,7 @@ package servlets;
 
 import accounts.AccountService;
 import accounts.UserProfile;
+import dbService.dataSets.UsersProfileDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,11 +15,11 @@ public class SignInServlet extends HttpServlet {
     private final AccountService accountService;
 
     public  SignInServlet(AccountService accountService) {
-            this.accountService = accountService;
+        this.accountService = accountService;
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String login = req.getParameter("login");
         String pass = req.getParameter("password");
@@ -28,12 +29,13 @@ public class SignInServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-        UserProfile user = accountService.getUserByLogin(login);
+
+        UsersProfileDataSet  user = accountService.getUserByLogin(login);
+
         if ( user != null && user.getPass().equals(pass)) {
 
-
             resp.setContentType("text/html;charset=utf-8");
-            resp.getWriter().println("Authorized: " + login);
+            resp.getWriter().println("Authorized: " + user.getLogin());
             resp.setStatus(HttpServletResponse.SC_OK);
 
         } else {

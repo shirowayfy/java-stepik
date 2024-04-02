@@ -1,5 +1,7 @@
 package accounts;
 
+
+@Deprecated
 public class UserProfile {
     private final String login;
     private final String pass;
