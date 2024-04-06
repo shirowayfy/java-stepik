@@ -1,10 +1,9 @@
 package servlets;
 
-import accounts.AccountService;
-import accounts.UserProfile;
+import accounts.AccountServiceImpl;
+import base.AccountService;
 import dbService.dataSets.UsersProfileDataSet;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

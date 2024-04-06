@@ -1,17 +1,18 @@
 package accounts;
 
+import base.AccountService;
+import base.DBService;
 import dbService.DBException;
-import dbService.DBService;
 import dbService.dataSets.UsersProfileDataSet;
 
 
 
-public class AccountService {
+public class AccountServiceImpl implements AccountService {
     private final DBService dbService;
 
 
 
-    public AccountService(DBService dbService) {
+    public AccountServiceImpl(DBService dbService) {
         this.dbService = dbService;
     }
 

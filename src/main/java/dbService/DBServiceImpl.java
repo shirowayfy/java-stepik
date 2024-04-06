@@ -3,6 +3,7 @@ package dbService;
 
 
 
+import base.DBService;
 import dbService.dao.UsersDAO;
 import dbService.dataSets.UsersProfileDataSet;
 import org.hibernate.SessionFactory;
@@ -12,14 +13,14 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.*;
 
-public class DBService {
+public class DBServiceImpl implements DBService{
 
     private static final String hibernate_show_sql = "true";
     private static final String hibernate_hbm2ddl_auto = "update";
 
     private final SessionFactory sessionFactory;
 
-    public DBService() {
+    public DBServiceImpl() {
         Configuration configuration = getH2Configuration();
         sessionFactory = createSessionFactory(configuration);
     }
@@ -30,9 +31,9 @@ public class DBService {
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/javaStepik");
-        configuration.setProperty("hibernate.connection.username", "java");
-        configuration.setProperty("hibernate.connection.password", "java");
+        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/stepicJava");
+        configuration.setProperty("hibernate.connection.username", "root");
+        configuration.setProperty("hibernate.connection.password", "0005000");
         configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
         configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
         return configuration;
@@ -58,6 +59,7 @@ public class DBService {
         ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
+
 
     public void printConnectInfo() {
 
