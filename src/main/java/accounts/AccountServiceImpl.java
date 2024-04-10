@@ -8,14 +8,26 @@ import dbService.dataSets.UsersProfileDataSet;
 
 
 public class AccountServiceImpl implements AccountService {
+
     private final DBService dbService;
-
-
+    private int usersLimit;
 
     public AccountServiceImpl(DBService dbService) {
         this.dbService = dbService;
+        this.usersLimit = 10;
     }
 
+    @Override
+    public int getUsersLimit() {
+        return usersLimit;
+    }
+
+    @Override
+    public void setUsersLimit(int usersLimit) {
+        this.usersLimit = usersLimit;
+    }
+
+    @Override
     public void addNewUser(String login, String pass, String email) {
         try {
 
@@ -26,6 +38,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
     public UsersProfileDataSet getUserByLogin(String login) {
         try {
             return dbService.getUser(login);
