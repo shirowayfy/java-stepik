@@ -9,6 +9,8 @@ import dbService.DBServiceImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import resources.controller.ResourceServer;
+import resources.controller.ResourceServerMBean;
 import servlets.*;
 
 import javax.management.MBeanServer;
@@ -30,9 +32,14 @@ public class Main {
 
 
         AccountServerControllerMBean serverStatistics = new AccountServerController(accountService);
+
+        ResourceServerMBean resourceServer = new ResourceServer();
+
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("Admin:type=AccountServerController");
-        mbs.registerMBean(serverStatistics, name);
+        ObjectName nameAccountServer = new ObjectName("Admin:type=AccountServerController");
+        ObjectName nameResourceServer = new ObjectName("Admin1:type=ResourceServer");
+        mbs.registerMBean(serverStatistics, nameAccountServer);
+        mbs.registerMBean(resourceServer, nameResourceServer);
 
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -42,6 +49,8 @@ public class Main {
         context.addServlet(new ServletHolder(signUpServlet), "/signup");
         context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
         context.addServlet(new ServletHolder(new AdminServlet(accountService)), "/admin");
+
+        context.addServlet(new ServletHolder(new ResourceServlet((ResourceServer) resourceServer)), ResourceServlet.URL_PAGE);
 
         Server server = new Server(8080);
         server.setHandler(context);
