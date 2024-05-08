@@ -7,14 +7,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatServiceImpl implements ChatService{
-    private Set<ChatWebSocket> webSockets;
+    private Set<ChatSocket> Sockets;
 
     public ChatServiceImpl() {
-        this.webSockets = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.Sockets = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     public void sendMessage(String data) {
-        for (ChatWebSocket user : webSockets) {
+        for (ChatSocket user : Sockets) {
             try {
                 user.sendString(data);
             } catch (Exception e) {
@@ -23,12 +23,16 @@ public class ChatServiceImpl implements ChatService{
         }
     }
 
-    public void add(ChatWebSocket webSocket) {
-        webSockets.add(webSocket);
+    public String processMessage(String message) {
+        return "Processed: " + message;
     }
 
-    public void remove(ChatWebSocket webSocket) {
-        webSockets.remove(webSocket);
+    public void add(ChatSocket Socket) {
+        Sockets.add(Socket);
+    }
+
+    public void remove(ChatSocket Socket) {
+        Sockets.remove(Socket);
     }
 
 }

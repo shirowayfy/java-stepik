@@ -47,7 +47,7 @@ public class Main {
         context.addServlet(new ServletHolder(mirrorRequestsServlet), "/mirror");
         context.addServlet(new ServletHolder(signInServlet), "/signin");
         context.addServlet(new ServletHolder(signUpServlet), "/signup");
-        context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
+        context.addServlet(new ServletHolder(new SocketChatServlet()), "/chat");
         context.addServlet(new ServletHolder(new AdminServlet(accountService)), "/admin");
 
         context.addServlet(new ServletHolder(new ResourceServlet((ResourceServer) resourceServer)), ResourceServlet.URL_PAGE);
